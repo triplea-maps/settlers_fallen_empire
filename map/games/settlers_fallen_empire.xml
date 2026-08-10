@@ -1,14 +1,29 @@
 <?xml version="1.0"?>
 <!DOCTYPE game SYSTEM "game.dtd"[]>
 <game>
-  <info name="Settlers: Fallen Empire" version="1.15"/>
+  <info name="Settlers: Fallen Empire" version="1.20"/>
 	<loader javaClass="games.strategy.triplea.TripleA"/>
 	<triplea minimumVersion="2.7.14848"/>				<!-- isAI -->
 	<diceSides value="6"/>
+<!--
+ v20
+* Sea Zone PU collection is now working as intended
+* It  currently requires the following steps
+* 1. player none=Neutral must be have an initial relationship of Neutral with the Player factions
+* 2. player none=Neutral start of turn 1 is changed to War
+* 3. Define All-SZ (Sea Zones) & All-Players required for #4 foreach to work
+* 4. A foreach to convert currentowner = originalowner, this allows PU to be collected
 
-<!-- 
+#1 & #2 are are a bizzare requirement that should not exist. 
+
+Turn placementAnyTerritory True and False, allows placement of isAI unplaced Factories, makes for a better player experience
+
+
+
+
+/ Has placementAnyTerritory aids AI placement
 	<connection t1="Langrad" t2="Bay of Langrad"/>
-TODO2.7.14848
+TODO 2.7.14848
 AI Fort-Wall T4+ for most /
 Angel v First Strike /
 Swarm 2-1-1 Summon by Ratkin Sorcerer /
@@ -17,8 +32,6 @@ Mountains are 0pu Flyers and Lgt-Infantry can enter???
 Land combat rounds now 5, was 3 /
 Catapult now 3pu, was 4 /
 Orcs now buy Catapult /
-
-
 
 -->
 
@@ -322,6 +335,115 @@ Orcs now buy Catapult /
 		<element name="Willows Weep"/>
 		<element name="Yra"/>
 	</variable>
+
+<variable name="All-SZ">	<!-- 105 All SZ -->
+	<element name="Antler Cape"/>
+	<element name="Bay of Kolophus"/>
+	<element name="Bay of Lakeward"/>
+	<element name="Bay of Langrad"/>
+	<element name="Beaver Sea"/>
+	<element name="Belorek"/>
+	<element name="Bend of Orut"/>
+	<element name="Brown Sea"/>
+	<element name="Buku Bay"/>
+	<element name="Calm Sea"/>
+	<element name="Canyon River"/>
+	<element name="Cave River"/>
+	<element name="Coast of Andal"/>
+	<element name="Coast of Bontam"/>
+	<element name="Coast of Nzanga"/>
+	<element name="Coast of Takoro"/>
+	<element name="Coast of Tophnon"/>
+	<element name="Crab Sea"/>
+	<element name="Crimson Bay"/>
+	<element name="Deren Estuary"/>
+	<element name="East Brown Sea"/>
+	<element name="East Ghostlake"/>
+	<element name="East Hot Sea"/>
+	<element name="Endless Waters"/>
+	<element name="Fairy Lake"/>
+	<element name="Frogcoast"/>
+	<element name="Frozen Lake"/>
+	<element name="Great Hla"/>
+	<element name="Great Ocean"/>
+	<element name="Great Spice Sea"/>
+	<element name="Green Sea"/>
+	<element name="Greenflow"/>
+	<element name="Greenflow Bend"/>
+	<element name="Greenflow Estuary"/>
+	<element name="Herring Sea"/>
+	<element name="Hla"/>
+	<element name="Hla Estuary"/>
+	<element name="Horrorcape"/>
+	<element name="Hot Sea"/>
+	<element name="Inner Sea"/>
+	<element name="Kraken Cape"/>
+	<element name="Kraken Sea"/>
+	<element name="Lake Podon"/>
+	<element name="Lake of Tears"/>
+	<element name="Lautan Sea"/>
+	<element name="Little Orut"/>
+	<element name="Lower Deren"/>
+	<element name="Lower Little Hla"/>
+	<element name="Lower Metterlink"/>
+	<element name="Lower Orut"/>
+	<element name="Lower Rhei"/>
+	<element name="Lower Snakewater"/>
+	<element name="Lower Tierk"/>
+	<element name="Madmans Passage"/>
+	<element name="Mangrove Lake"/>
+	<element name="Metterlink"/>
+	<element name="Mianeve"/>
+	<element name="Mornstar Lake"/>
+	<element name="Muddy Lake"/>
+	<element name="North Skylake"/>
+	<element name="Ogger Sea"/>
+	<element name="Orut"/>
+	<element name="Orut Estuary"/>
+	<element name="Parghian Bay"/>
+	<element name="Pearl Sea"/>
+	<element name="Piratebay"/>
+	<element name="Rapids of Sis"/>
+	<element name="Ring of Gods"/>
+	<element name="Rushing River"/>
+	<element name="Saphire Lake"/>
+	<element name="Sea of Prometh"/>
+	<element name="Sea of Zaruta"/>
+	<element name="Shallow Sea"/>
+	<element name="Sis Estuary"/>
+	<element name="Snakewater"/>
+	<element name="South Skylake"/>
+	<element name="Splitting of Orut"/>
+	<element name="Strait of Nagi"/>
+	<element name="Strait of Ogi"/>
+	<element name="Straits of Nautis"/>
+	<element name="Straits of the Explorer"/>
+	<element name="Taurian Sea"/>
+	<element name="Thalassopontus"/>
+	<element name="Traders Sea"/>
+	<element name="Upper Belorek"/>
+	<element name="Upper Deren"/>
+	<element name="Upper Greenflow"/>
+	<element name="Upper Little Hla"/>
+	<element name="Upper Metterlink"/>
+	<element name="Upper Orut"/>
+	<element name="Upper Rhei"/>
+	<element name="Upper Rushing River"/>
+	<element name="Upper Snakewater"/>
+	<element name="Upper Tierk"/>
+	<element name="Waterlily Lake"/>
+	<element name="Waters of Ephus"/>
+	<element name="Waters of Mizuko"/>
+	<element name="Waters of Nova Catulis"/>
+	<element name="Waters of Tarable"/>
+	<element name="Waves of Souls"/>
+	<element name="West Brown Sea"/>
+	<element name="West Ghostlake"/>
+	<element name="West Hot Sea"/>
+	<element name="Witchlake"/>
+	<element name="Yrean Bay"/>
+</variable>
+
 
 </variableList>
 
@@ -4718,6 +4840,7 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 		<option name="movement" value="2"/>
 		<option name="isSea" value="true"/>
 			<option name="blockade" value="1"/>
+			<option name="isCombatTransport" value="true"/>
 			<option name="transportCapacity" value="11"/>
 		<option name="requiresUnits" value="Urban"/>
 <!--			<option name="consumesUnits" value="1:Urban"/>  Not possible as not in same TT -->
@@ -4729,8 +4852,9 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 		<option name="defense" value="3"/>
 		<option name="movement" value="2"/>
 		<option name="isSea" value="true"/>
-			<option name="isDestroyer" value="true"/>
 			<option name="blockade" value="1"/>
+			<option name="isDestroyer" value="true"/>
+			<option name="isCombatTransport" value="true"/>
 			<option name="transportCapacity" value="16"/>
 		<option name="requiresUnits" value="Urban"/>
 			<option name="createsResourcesList" value="-1:PUs"/>
@@ -4741,6 +4865,7 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 		<option name="defense" value="1"/>
 		<option name="movement" value="2"/>
 		<option name="isSea" value="true"/>
+			<option name="isCombatTransport" value="true"/>
 			<option name="transportCapacity" value="26"/>
 		<option name="createsResourcesList" value="0:PUs"/>
 		<option name="unitPlacementRestrictions" value="river"/>
@@ -4767,6 +4892,7 @@ Simulate slower move on a River, costs 1+1=2 to enter, see below			<option name=
 			<option name="canBombard" value="true"/>
 				<option name="bombard" value="4"/>
 			<option name="blockade" value="2"/>
+			<option name="isCombatTransport" value="true"/>
 			<option name="transportCapacity" value="26"/>
 
 <!--		<option name="isFactory" value="true"/>  
@@ -4794,6 +4920,7 @@ isFactory =	values: just sets: canBeDamaged, isInfrastructure, canProduceUnits, 
 		<option name="isSea" value="true"/>
 			<option name="isSub" value="true"/>
 			<option name="blockade" value="1"/>
+			<option name="isCombatTransport" value="true"/>
 			<option name="transportCapacity" value="26"/>
 		<option name="requiresUnits" value="BreedingGround"/>
 			<option name="createsResourcesList" value="-1:PUs"/>
@@ -5207,6 +5334,13 @@ canProduceUnits		values: allows a unit to be a factory, without all the other th
 
 <!-- ======================================= GO TRIGGER =======================================  -->
 
+<!-- Always True switch  -->
+	<attachment name="conditionAttachment_Always_True" attachTo="AlAnfa" javaClass="RulesAttachment" type="player">
+		<option name="switch" value="true"/>
+	</attachment>
+
+
+
 <!-- Every round condition -->
 	<attachment foreach="$All-Players$" name="conditionAttachment_EveryTurn_@All-Players@" attachTo="@All-Players@" javaClass="RulesAttachment" type="player">
 		<option name="rounds" value="2-+"/>
@@ -5254,6 +5388,7 @@ canProduceUnits		values: allows a unit to be a factory, without all the other th
 		<option name="players" value="@All-Players@"/>
 		<option name="uses" value="1"/>
 	</attachment> 
+
 
 
 
@@ -5760,6 +5895,43 @@ There are two sets one greater 9+ BEFORE & 5+, AFTER place
 		<option name="players" value="@All-Players@"/>
 	</attachment>
 
+
+<!-- ======================================= Change current SZ owner to originalOwner to collect PU =======================================  -->
+<!-- Change current SZ owner to originalOwner to collect SZ PU -->
+<!-- none must be Neutral on initialization then changed to war for this block to work -->
+    <attachment foreach="$All-Players$^$All-SZ$" name="conditionAttachment_SZ_@All-Players@_@All-SZ@" attachTo="@All-Players@" javaClass="RulesAttachment" type="player">
+		<option name="directOwnershipTerritories" value="@All-SZ@" count="1"/>
+    </attachment>
+	<attachment foreach="$All-Players$^$All-SZ$" name="triggerAttachment_SZ_@All-Players@_@All-SZ@" attachTo="@All-Players@" javaClass="TriggerAttachment" type="player">
+		<option name="conditions" value="conditionAttachment_SZ_@All-Players@_@All-SZ@"/>
+		<option name="territories" value="@All-SZ@"/>
+		<option name="territoryAttachmentName" value="TerritoryAttachment" count="territoryAttachment"/>
+		<option name="territoryProperty" value="originalOwner" count="@All-Players@"/>
+		<option name="when" value="before:@All-Players@EndTurn"/>
+	</attachment>
+
+<!-- From round 1+ none at WAR with players -->
+	<attachment name="conditionAttachment_none_at_WAR" attachTo="none" javaClass="RulesAttachment" type="player">
+		<option name="rounds" value="1"/>
+	</attachment>
+	<attachment name="triggerAttachment_none_at_WAR" attachTo="none" javaClass="TriggerAttachment" type="player">
+		<option name="conditions" value="conditionAttachment_none_at_WAR"/>
+		<option name="relationshipChange" value="none:AlAnfa:Neutral:War"/>
+		<option name="relationshipChange" value="none:Celestial:Neutral:War"/>
+		<option name="relationshipChange" value="none:Demon:Neutral:War"/>
+		<option name="relationshipChange" value="none:Dragonkin:Neutral:War"/>
+		<option name="relationshipChange" value="none:Dwarf:Neutral:War"/>
+		<option name="relationshipChange" value="none:Elf:Neutral:War"/>
+		<option name="relationshipChange" value="none:Imperial:Neutral:War"/>
+		<option name="relationshipChange" value="none:Merefolk:Neutral:War"/>
+		<option name="relationshipChange" value="none:Orcs:Neutral:War"/>
+		<option name="relationshipChange" value="none:Ratkin:Neutral:War"/>
+		<option name="relationshipChange" value="none:Undead:Neutral:War"/>
+		<option name="when" value="before:AlAnfaCombatMove"/>
+	</attachment>
+
+
+
 <!-- ======================================= GO RETAIN pu income for loss of capital ======================================= -->
 <!-- retainCapitalNumber means that we do not lose our money if we still control at least this many of our capitals (defaults to 1).
 	If a player has no playerAttachment, then it defaults to X, where X = total number of capitals
@@ -5913,6 +6085,44 @@ There are two sets one greater 9+ BEFORE & 5+, AFTER place
 		<option name="placementLimit" value="owned:Kraken" count="2"/>
 
 	</attachment>
+
+
+<!-- Go Stack for none -->
+<!--
+	<attachment name="playerAttachment" attachTo="none" javaClass="PlayerAttachment" type="player">
+		<option name="retainCapitalNumber" value="0"/>
+		<option name="retainCapitalProduceNumber" value="0"/>
+	</attachment>
+-->
+
+<!-- ======================================= GO Trigger for rulesAttachment ======================================= -->
+
+<!-- pAT placementAnyTerritory ON/true before Place then OFF/false -->
+	<attachment foreach="$All-Players$" name="triggerAttachment_@All-Players@_Reset_pAT" attachTo="@All-Players@" javaClass="TriggerAttachment" type="player">
+		<option name="conditions" value="conditionAttachment_Always_True"/>
+		<option name="playerAttachmentName" value="RulesAttachment" count="rulesAttachment"/>
+		<option name="playerProperty" value="placementAnyTerritory" count="false"/>
+		<option name="when" value="before:@All-Players@Purchase"/>
+	</attachment>
+	<attachment foreach="$All-Players$" name="triggerAttachment_@All-Players@_Set_pAT" attachTo="@All-Players@" javaClass="TriggerAttachment" type="player">
+		<option name="conditions" value="conditionAttachment_Always_True"/>
+		<option name="playerAttachmentName" value="RulesAttachment" count="rulesAttachment"/>
+		<option name="playerProperty" value="placementAnyTerritory" count="true"/>
+		<option name="when" value="before:@All-Players@Place"/>
+	</attachment>
+
+<!-- ======================================= GO rulesAttachment ======================================= -->
+
+<!-- @@@@@ Only One rulesAttachment per Player Rule is allowed -->
+<!--
+<property name="Place in Any Territory" value="true" editable="false">		is probably required
+placementAnyTerritory makes the AI place Factories given by isAI/xml, also appears to aid the AI in defending Paris much better 
+-->
+	<attachment foreach="$All-Players$" name="rulesAttachment" attachTo="@All-Players@" javaClass="RulesAttachment" type="player">
+		<option name="placementAnyTerritory" value="true"/>
+	<!--	<option name="placementAnySeaZone" value="true"/>  -->
+	</attachment>
+
 
 
 </attachmentList>
@@ -6764,7 +6974,7 @@ There are two sets one greater 9+ BEFORE & 5+, AFTER place
 		<relationship type="War"	player1="Imperial" player2="Orcs" roundValue="1"/>
 		<relationship type="War"	player1="Imperial" player2="Demon"	roundValue="1"/>
 		<relationship type="War"	player1="Imperial" player2="Ratkin" roundValue="1"/>
-		<relationship type="War"	player1="Imperial" player2="none" roundValue="1"/>
+		<relationship type="Neutral"	player1="Imperial" player2="none" roundValue="1"/>
 
 		<relationship type="Allied" player1="Dwarf" player2="Elf" roundValue="1"/>
 		<relationship type="Allied" player1="Dwarf" player2="Merefolk" roundValue="1"/>
@@ -6775,7 +6985,7 @@ There are two sets one greater 9+ BEFORE & 5+, AFTER place
 		<relationship type="War"	player1="Dwarf" player2="Orcs" roundValue="1"/>
 		<relationship type="War"	player1="Dwarf" player2="Demon"	roundValue="1"/>
 		<relationship type="War"	player1="Dwarf" player2="Ratkin" roundValue="1"/>
-		<relationship type="War"	player1="Dwarf" player2="none" roundValue="1"/>
+		<relationship type="Neutral"	player1="Dwarf" player2="none" roundValue="1"/>
 
 		<relationship type="Allied" player1="Elf" player2="Merefolk" roundValue="1"/>
 		<relationship type="Allied" player1="Elf" player2="Celestial" roundValue="1"/>
@@ -6785,7 +6995,7 @@ There are two sets one greater 9+ BEFORE & 5+, AFTER place
 		<relationship type="War"	player1="Elf" player2="Orcs" roundValue="1"/>
 		<relationship type="War"	player1="Elf" player2="Demon"	roundValue="1"/>
 		<relationship type="War"	player1="Elf" player2="Ratkin" roundValue="1"/>
-		<relationship type="War"	player1="Elf" player2="none" roundValue="1"/>
+		<relationship type="Neutral"	player1="Elf" player2="none" roundValue="1"/>
 		
 		<relationship type="Allied" player1="Merefolk" player2="Celestial" roundValue="1"/>
 		<relationship type="War"	player1="Merefolk" player2="Dragonkin" roundValue="1"/>
@@ -6794,7 +7004,7 @@ There are two sets one greater 9+ BEFORE & 5+, AFTER place
 		<relationship type="War"	player1="Merefolk" player2="Orcs" roundValue="1"/>
 		<relationship type="War"	player1="Merefolk" player2="Demon"	roundValue="1"/>
 		<relationship type="War"	player1="Merefolk" player2="Ratkin" roundValue="1"/>
-		<relationship type="War"	player1="Merefolk" player2="none" roundValue="1"/>
+		<relationship type="Neutral"	player1="Merefolk" player2="none" roundValue="1"/>
 
 		<relationship type="War"	player1="Celestial" player2="Dragonkin" roundValue="1"/>
 		<relationship type="War"	player1="Celestial" player2="AlAnfa" roundValue="1"/>
@@ -6802,34 +7012,34 @@ There are two sets one greater 9+ BEFORE & 5+, AFTER place
 		<relationship type="War"	player1="Celestial" player2="Undead"	roundValue="1"/>
 		<relationship type="War"	player1="Celestial" player2="Demon"	roundValue="1"/>
 		<relationship type="War"	player1="Celestial" player2="Ratkin" roundValue="1"/>
-		<relationship type="War"	player1="Celestial" player2="none" roundValue="1"/>
+		<relationship type="Neutral"	player1="Celestial" player2="none" roundValue="1"/>
 
 		<relationship type="War"	player1="Dragonkin" player2="AlAnfa" roundValue="1"/>
 		<relationship type="War"	player1="Dragonkin" player2="Orcs" roundValue="1"/>
 		<relationship type="War"	player1="Dragonkin" player2="Undead" roundValue="1"/>
 		<relationship type="War"	player1="Dragonkin" player2="Demon"	roundValue="1"/>
 		<relationship type="War"	player1="Dragonkin" player2="Ratkin" roundValue="1"/>
-		<relationship type="War"	player1="Dragonkin" player2="none" roundValue="1"/>
+		<relationship type="Neutral"	player1="Dragonkin" player2="none" roundValue="1"/>
 
 		<relationship type="Allied" player1="AlAnfa" player2="Orcs" roundValue="1"/>
 		<relationship type="Allied" player1="AlAnfa" player2="Undead" roundValue="1"/>
 		<relationship type="Allied" player1="AlAnfa" player2="Demon"	roundValue="1"/>
 		<relationship type="Allied" player1="AlAnfa" player2="Ratkin" roundValue="1"/>
-		<relationship type="War" 	player1="AlAnfa" player2="none" roundValue="1"/>
+		<relationship type="Neutral" 	player1="AlAnfa" player2="none" roundValue="1"/>
 
 		<relationship type="Allied" player1="Orcs" player2="Undead" roundValue="1"/>
 		<relationship type="Allied" player1="Orcs" player2="Demon"	roundValue="1"/>
 		<relationship type="Allied" player1="Orcs" player2="Ratkin" roundValue="1"/>
-		<relationship type="War"	player1="Orcs" player2="none" roundValue="1"/>
+		<relationship type="Neutral"	player1="Orcs" player2="none" roundValue="1"/>
 
 		<relationship type="Allied" player1="Undead" player2="Demon"	roundValue="1"/>
 		<relationship type="Allied" player1="Undead" player2="Ratkin" roundValue="1"/>
-		<relationship type="War"	player1="Undead" player2="none" roundValue="1"/>
+		<relationship type="Neutral"	player1="Undead" player2="none" roundValue="1"/>
 
 		<relationship type="Allied" player1="Demon" player2="Ratkin" roundValue="1"/>
-		<relationship type="War"	player1="Demon" player2="none" roundValue="1"/>
+		<relationship type="Neutral"	player1="Demon" player2="none" roundValue="1"/>
 
-		<relationship type="War"	player1="Ratkin" player2="none" roundValue="1"/>
+		<relationship type="Neutral"	player1="Ratkin" player2="none" roundValue="1"/>
 	</relationshipInitialize>
 
 </initialize>
